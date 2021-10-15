@@ -25,7 +25,9 @@ typedef struct
     histogram_error error;
 } histogram_s;
 
-histogram_s *CreateHistogramp(uint32_t *pBuckets, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
-histogram_error update_histogram(histogram_s *histogram_struct, uint32_t element);
+histogram_s *CreateHistogram(uint32_t *pBuckets, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
+histogram_error UpdateHistogram(histogram_s *histogram_struct, uint32_t element);
+histogram_error FreeHistogram(histogram_s *pHistogramStruct);
+void PrintHistogram(histogram_s *pHistogramStruct);
 
 #endif
