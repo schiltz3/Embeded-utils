@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/Histogram"
+                "${workspaceFolder}/Histogram",
+                "${workspaceFolder}/Unity/src"
             ],
             "compilerPath": "C:\\ProgramData\\chocolatey\\bin\\gcc.exe",
             "cStandard": "gnu17",
