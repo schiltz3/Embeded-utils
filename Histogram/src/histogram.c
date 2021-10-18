@@ -30,7 +30,7 @@ histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent
     pHistogramStruct->pBucketLimits = pBucketLimits;
     pHistogramStruct->pHistogramCount = pHistogramCount;
     pHistogramStruct->pHistogramPercentage = pHistogramPercentage;
-    pHistogramStruct->num_of_buckets = histogramLength;
+    pHistogramStruct->numberOfBuckets = histogramLength;
     return pHistogramStruct;
 }
 
@@ -49,14 +49,14 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
     }
 
     /* Add the element in the last bucket if it is too large for the histogram */
-    else if (element >= pHistogramStruct->pBucketLimits[pHistogramStruct->num_of_buckets - 1])
+    else if (element >= pHistogramStruct->pBucketLimits[pHistogramStruct->numberOfBuckets - 1])
     {
-        pHistogramStruct->pHistogramCount[pHistogramStruct->num_of_buckets - 1]++;
+        pHistogramStruct->pHistogramCount[pHistogramStruct->numberOfBuckets - 1]++;
     }
     else
     {
         /* Find and increment bucket that element goes in */
-        for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets - 1; i++)
+        for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets - 1; i++)
         {
             if (element < pHistogramStruct->pBucketLimits[i])
             {
@@ -68,13 +68,13 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 
     /* Calculate the sum of all the buckets */
     uint32_t binSum = 0;
-    for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets; i++)
+    for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
     {
         binSum += pHistogramStruct->pHistogramCount[i];
     }
 
     /* Calculate the percentage of each bucket */
-    for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets; i++)
+    for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
     {
         pHistogramStruct->pHistogramPercentage[i] = (pHistogramStruct->pHistogramCount[i] * 100) / binSum;
     }
@@ -100,7 +100,7 @@ void PrintHistogram(histogram_s *pHistogramStruct)
 {
     printf("|Bucket\tCount\tPercent\t|\n");
     printf("|-----------------------|\n");
-    for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets; i++)
+    for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
     {
         printf("|%u\t%u\t%u%\t|\n", i, pHistogramStruct->pHistogramCount[i], pHistogramStruct->pHistogramPercentage[i]);
     }
