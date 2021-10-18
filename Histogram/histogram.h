@@ -25,11 +25,10 @@ typedef enum
  */
 typedef struct
 {
-    uint32_t *pHistogramCount;
-    uint8_t *pHistogramPercentage;
-    uint32_t *pBucketLimits;
-    uint8_t num_of_buckets;
-    histogram_error error;
+    uint32_t *pHistogramCount;     //!< contains a pointer to the count array for the histogram
+    uint8_t *pHistogramPercentage; //!< Contains a pointer to the percentage array for the histogram
+    uint32_t *pBucketLimits;       //!< Contains a pointer to the bucket limit array for the histogram
+    uint8_t num_of_buckets;        //!< Contains the length of the 3 arrays
 } histogram_s;
 
 histogram_s *CreateHistogram(uint32_t *pBuckets, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
