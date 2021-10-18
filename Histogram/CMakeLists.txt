@@ -1,1 +1,1 @@
-add_library(Histogram histogram.c)
+add_library(Histogram src/histogram.c)

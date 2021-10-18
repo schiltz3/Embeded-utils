@@ -6,7 +6,7 @@ add_executable(${PROJECT_NAME} main.c)
 
 add_subdirectory(Histogram)
 
-include_directories(${PROJECT_NAME} Histogram)
+include_directories(${PROJECT_NAME} Histogram/src)
 
 target_link_directories(${PROJECT_NAME} PRIVATE Histogram)
 
