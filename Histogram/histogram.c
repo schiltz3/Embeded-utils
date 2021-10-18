@@ -89,6 +89,7 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 histogram_error FreeHistogram(histogram_s *pHistogramStruct)
 {
     free(pHistogramStruct);
+    return NO_ERROR;
 }
 
 /**
