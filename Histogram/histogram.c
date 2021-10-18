@@ -10,8 +10,12 @@ histogram_error FreeHistogram(histogram_s *pHistogramStruct);
 void PrintHistogram(histogram_s *pHistogramStruct);
 
 /**
- * @brief Initialize the histogram handed it.
-*/
+ * @brief Initialize a histogram struct that wraps the arrays handed it
+ * @param pBucketLimits The array of size histogramLength containing upper buckets limit. The lower limit is the limit before it
+ * @param pHistogramPercentage The array of size histogramlength to store the histogram percentages in
+ * @param pHistogramCount The array of size histogramLength to store the histogram bucket counters in
+ * @return The newly created histogram struct
+ */
 histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength)
 {
     histogram_s *pHistogramStruct = (histogram_s *)malloc(sizeof(histogram_s));
@@ -23,6 +27,12 @@ histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent
     return pHistogramStruct;
 }
 
+/**
+ * @brief Update the histogram structs with the new element
+ * @param pHistogramStruct A histogram struct
+ * @param element The element to be added to the histogram
+ * @return A histogram error enum (0 is no error)
+ */
 histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 {
     /* return if element will not be put in histogram*/
@@ -60,12 +70,21 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 
     return NO_ERROR;
 }
-
+/**
+ * @brief Frees the memory allocated to the histogram struct, but leaves the arrays pointed to intact
+ * @param pHistogramStruct A histogram Struct
+ * @return A histogram error enum (0 is no error)
+ */
 histogram_error FreeHistogram(histogram_s *pHistogramStruct)
 {
     free(pHistogramStruct);
 }
 
+/**
+ * @brief Pretty prints the pHistogramCount and pHistogramPercentage arrays
+ * @param pHistogramStruct A histogram Struct
+ * @return A histogram error enum (0 is no error)
+ */
 void PrintHistogram(histogram_s *pHistogramStruct)
 {
     printf("|Bucket\tCount\tPercent\t|\n");

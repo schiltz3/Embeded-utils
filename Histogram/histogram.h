@@ -9,13 +9,20 @@
 
 #include <stdint.h>
 
+/**
+ * @enum histogram_error
+ * @brief Enum containing the different errors created by the histogram file
+ */
 typedef enum
 {
     NO_ERROR,
     MEM_ERROR,
     ZERO_VALUE
 } histogram_error;
-
+/**
+ * @struct histogram_s histogram.h
+ * @brief Histogram containing pointers to HistogramCount, histogramPercentage, BucketLimits, as well as the number of buckets and an error enum
+ */
 typedef struct
 {
     uint32_t *pHistogramCount;
