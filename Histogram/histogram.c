@@ -1,3 +1,10 @@
+/**
+ * @file histogram.c
+ * @author John Schiltz
+ * @date 14 October 2021
+ * @brief General histogram solution
+ */
+
 #include "histogram.h"
 #include "stdlib.h"
 #include "string.h"
@@ -14,6 +21,7 @@ void PrintHistogram(histogram_s *pHistogramStruct);
  * @param pBucketLimits The array of size histogramLength containing upper buckets limit. The lower limit is the limit before it
  * @param pHistogramPercentage The array of size histogramlength to store the histogram percentages in
  * @param pHistogramCount The array of size histogramLength to store the histogram bucket counters in
+ * @param histogramLength The length of the 3 arrays
  * @return The newly created histogram struct
  */
 histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength)
@@ -23,7 +31,6 @@ histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent
     pHistogramStruct->pHistogramCount = pHistogramCount;
     pHistogramStruct->pHistogramPercentage = pHistogramPercentage;
     pHistogramStruct->num_of_buckets = histogramLength;
-    pHistogramStruct->error = NO_ERROR;
     return pHistogramStruct;
 }
 
@@ -35,24 +42,28 @@ histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent
  */
 histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 {
-    /* return if element will not be put in histogram*/
+    /* Return if element will not be put in histogram */
     if (element <= 0)
     {
         return ZERO_VALUE;
     }
 
-    /* Find and increment bucket that element goes in */
-    for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets - 1; i++)
-    {
-        if (element < pHistogramStruct->pBucketLimits[i])
-        {
-            pHistogramStruct->pHistogramCount[i]++;
-            break;
-        }
-    }
-    if (element >= pHistogramStruct->pBucketLimits[pHistogramStruct->num_of_buckets - 1])
+    /* Add the element in the last bucket if it is too large for the histogram */
+    else if (element >= pHistogramStruct->pBucketLimits[pHistogramStruct->num_of_buckets - 1])
     {
         pHistogramStruct->pHistogramCount[pHistogramStruct->num_of_buckets - 1]++;
+    }
+    else
+    {
+        /* Find and increment bucket that element goes in */
+        for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets - 1; i++)
+        {
+            if (element < pHistogramStruct->pBucketLimits[i])
+            {
+                pHistogramStruct->pHistogramCount[i]++;
+                break;
+            }
+        }
     }
 
     /* Calculate the sum of all the buckets */
@@ -62,7 +73,7 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
         binSum += pHistogramStruct->pHistogramCount[i];
     }
 
-    /* calculate the percentage of each bucket */
+    /* Calculate the percentage of each bucket */
     for (uint8_t i = 0; i < pHistogramStruct->num_of_buckets; i++)
     {
         pHistogramStruct->pHistogramPercentage[i] = (pHistogramStruct->pHistogramCount[i] * 100) / binSum;
@@ -83,7 +94,6 @@ histogram_error FreeHistogram(histogram_s *pHistogramStruct)
 /**
  * @brief Pretty prints the pHistogramCount and pHistogramPercentage arrays
  * @param pHistogramStruct A histogram Struct
- * @return A histogram error enum (0 is no error)
  */
 void PrintHistogram(histogram_s *pHistogramStruct)
 {
