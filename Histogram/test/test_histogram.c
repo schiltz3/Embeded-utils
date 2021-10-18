@@ -63,4 +63,9 @@ void test_CreateHistogram(void)
 
     histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
     TEST_ASSERT_NOT_NULL(pMagHistogram);
+
+    TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pBucketLimits, magHistoLimits, "pBucketLimits pointer does not point to correct array");
+    TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pHistogramPercentage, histogramPercentage, "pHistogramPercentage pointer does not point to correct array");
+    TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pHistogramCount, histogramCount, "pHistogramCount are not equal");
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(pMagHistogram->numberOfBuckets, HISTOGRAM_LENGTH, "number of buckets not equal to input");
 }
