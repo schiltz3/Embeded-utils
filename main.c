@@ -47,6 +47,10 @@ int main()
     magHistoLimits[31] = 28800; /* > 8 hrs */
 
     histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    if (pMagHistogram == NULL)
+    {
+        printf("Createhistogram\n");
+    }
 
     PrintHistogram(pMagHistogram);
 
