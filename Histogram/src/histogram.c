@@ -45,7 +45,7 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
     /* Return if element will not be put in histogram */
     if (element <= 0)
     {
-        return ZERO_VALUE;
+        return ZERO_ERROR;
     }
 
     /* Add the element in the last bucket if it is too large for the histogram */

@@ -17,7 +17,7 @@ typedef enum
 {
     NO_ERROR,
     MEM_ERROR,
-    ZERO_VALUE
+    ZERO_ERROR
 } histogram_error;
 /**
  * @struct histogram_s histogram.h
