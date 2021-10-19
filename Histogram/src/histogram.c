@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 /* function prototypes */
-histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
+histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent, uint32_t *pHistogramCount, uint8_t histogramLength);
 histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element);
 histogram_error ResetHistogram(histogram_s *phistogramStruct);
 histogram_error FreeHistogram(histogram_s *pHistogramStruct);
@@ -20,17 +20,17 @@ void PrintHistogram(histogram_s *pHistogramStruct);
 /**
  * @brief Initialize a histogram struct that wraps the arrays handed it
  * @param pBucketLimits The array of size histogramLength containing upper buckets limit. The lower limit is the limit before it
- * @param pHistogramPercentage The array of size histogramlength to store the histogram percentages in
+ * @param pHistogramPercent The array of size histogramlength to store the histogram percentages in
  * @param pHistogramCount The array of size histogramLength to store the histogram bucket counters in
  * @param histogramLength The length of the 3 arrays
  * @return The newly created histogram struct
  */
-histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength)
+histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent, uint32_t *pHistogramCount, uint8_t histogramLength)
 {
     histogram_s *pHistogramStruct = (histogram_s *)malloc(sizeof(histogram_s));
     pHistogramStruct->pBucketLimits = pBucketLimits;
     pHistogramStruct->pHistogramCount = pHistogramCount;
-    pHistogramStruct->pHistogramPercentage = pHistogramPercentage;
+    pHistogramStruct->pHistogramPercent = pHistogramPercent;
     pHistogramStruct->numberOfBuckets = histogramLength;
     return pHistogramStruct;
 }
@@ -77,13 +77,13 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
     /* Calculate the percentage of each bucket */
     for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
     {
-        pHistogramStruct->pHistogramPercentage[i] = (pHistogramStruct->pHistogramCount[i] * 100) / binSum;
+        pHistogramStruct->pHistogramPercent[i] = (pHistogramStruct->pHistogramCount[i] * 100) / binSum;
     }
 
     return NO_ERROR;
 }
 /**
- * @brief Set the elements in phistogramCount and phistogramPercentage to 0
+ * @brief Set the elements in phistogramCount and phistogramPercent to 0
  * 
  * @param phistogramStruct
  * @return histogram_error 
@@ -91,7 +91,7 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
 histogram_error ResetHistogram(histogram_s *phistogramStruct)
 {
     memset(phistogramStruct->pHistogramCount, 0, sizeof(phistogramStruct->pHistogramCount[0]));
-    memset(phistogramStruct->pHistogramPercentage, 0, sizeof(phistogramStruct->pHistogramPercentage[0]));
+    memset(phistogramStruct->pHistogramPercent, 0, sizeof(phistogramStruct->pHistogramPercent[0]));
 }
 /**
  * @brief Frees the memory allocated to the histogram struct, but leaves the arrays pointed to intact
@@ -105,7 +105,7 @@ histogram_error FreeHistogram(histogram_s *pHistogramStruct)
 }
 
 /**
- * @brief Pretty prints the pHistogramCount and pHistogramPercentage arrays
+ * @brief Pretty prints the pHistogramCount and pHistogramPercent arrays
  * @param pHistogramStruct A histogram Struct
  */
 void PrintHistogram(histogram_s *pHistogramStruct)
@@ -114,7 +114,7 @@ void PrintHistogram(histogram_s *pHistogramStruct)
     printf("|--------------------------|\n");
     for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
     {
-        printf("|%u \t%u\t%u %\t|\n", i, pHistogramStruct->pHistogramCount[i], pHistogramStruct->pHistogramPercentage[i]);
+        printf("|%u \t%u\t%u %\t|\n", i, pHistogramStruct->pHistogramCount[i], pHistogramStruct->pHistogramPercent[i]);
     }
     printf("----------------------------\n");
 }
