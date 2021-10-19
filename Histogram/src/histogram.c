@@ -58,7 +58,7 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
         /* Find and increment bucket that element goes in */
         for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets - 1; i++)
         {
-            if (element < pHistogramStruct->pBucketLimits[i])
+            if (element <= pHistogramStruct->pBucketLimits[i])
             {
                 pHistogramStruct->pHistogramCount[i]++;
                 break;
