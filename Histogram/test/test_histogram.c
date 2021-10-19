@@ -74,6 +74,10 @@ void test_CreateHistogram(void)
     TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramCount, pMagHistogram->pHistogramCount, "pHistogramCount are not equal");
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(HISTOGRAM_LENGTH, pMagHistogram->numberOfBuckets, "number of buckets not equal to input");
 }
+/**
+ * @brief Test that zeros get discarded
+ * 
+ */
 void test_UpdateHistogram_0(void)
 {
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
@@ -87,6 +91,10 @@ void test_UpdateHistogram_0(void)
     uint8_t test_histogram_percent[HISTOGRAM_LENGTH] = {0};
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(histogramPercentage, test_histogram_percent, HISTOGRAM_LENGTH, "All buckets should be 0");
 }
+/**
+ * @brief Test that element that equals bucket limit gets put in that bucket
+ * 
+ */
 void test_UpdateHistogram_1(void)
 {
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
@@ -101,6 +109,10 @@ void test_UpdateHistogram_1(void)
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_histogram_percent, histogramPercentage, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
 }
 
+/**
+ * @brief Test that elemnts get added, and percentage is calculated correctly on 2 entries
+ * 
+ */
 void test_UpdateHistogram_2(void)
 {
     memset(histogramPercentage, 0, HISTOGRAM_LENGTH);
