@@ -8,7 +8,7 @@
  */
 void test_CreateHistogram(void);
 
-#define HISTOGRAM_LENGTH 30
+#define HISTOGRAM_LENGTH 32
 uint32_t magHistoLimits[HISTOGRAM_LENGTH] = {0};
 uint32_t histogramCount[HISTOGRAM_LENGTH] = {0};
 uint8_t histogramPercentage[HISTOGRAM_LENGTH] = {0};
@@ -69,11 +69,31 @@ void test_CreateHistogram(void)
     TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pHistogramCount, histogramCount, "pHistogramCount are not equal");
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(pMagHistogram->numberOfBuckets, HISTOGRAM_LENGTH, "number of buckets not equal to input");
 }
-void test_UpdateHistogram(void)
+void test_UpdateHistogram_0(void)
+{
+    histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_error h_error = UpdateHistogram(pMagHistogram, 0);
+
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, ZERO_ERROR, "Should return ZERO_ERROR");
+
+    uint32_t test_histogram_count[HISTOGRAM_LENGTH] = {0};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(histogramCount, test_histogram_count, HISTOGRAM_LENGTH, "All buckets should be 0");
+
+    uint8_t test_histogram_percent[HISTOGRAM_LENGTH] = {0};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(histogramPercentage, test_histogram_percent, HISTOGRAM_LENGTH, "All buckets should be 0");
+}
+void test_UpdateHistogram_1(void)
 {
     histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
     histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
-    TEST_ASSERT_EQUAL_UINT8(h_error, NO_ERROR);
+
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
+
+    uint32_t test_histogram_count[HISTOGRAM_LENGTH] = {0, [13] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(histogramCount, test_histogram_count, HISTOGRAM_LENGTH, "Bucket 13 should be 1");
+
+    uint8_t test_histogram_percent[HISTOGRAM_LENGTH] = {0, [13] = 100};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(histogramPercentage, test_histogram_percent, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
 }
 void test_FreeHistogram(void)
 {
