@@ -94,6 +94,24 @@ void test_UpdateHistogram_1(void)
 
     uint8_t test_histogram_percent[HISTOGRAM_LENGTH] = {0, [13] = 100};
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(histogramPercentage, test_histogram_percent, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
+void test_UpdateHistogram_2(void)
+{
+    memset(histogramPercentage, 0, HISTOGRAM_LENGTH);
+
+    histogram_error h_error;
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+
+    h_error = UpdateHistogram(pMagHistogram, 87);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
+
+    h_error = UpdateHistogram(pMagHistogram, 2000);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
+
+    uint32_t test_histogram_count[HISTOGRAM_LENGTH] = {0, [16] = 1, [24] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_histogram_count, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
+
+    uint8_t test_histogram_percent[HISTOGRAM_LENGTH] = {0, [16] = 50, [24] = 50};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_histogram_percent, histogramPercentage, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
 }
 void test_FreeHistogram(void)
 {
