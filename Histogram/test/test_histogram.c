@@ -9,49 +9,49 @@
 void test_CreateHistogram(void);
 
 #define HISTOGRAM_LENGTH 32
-uint32_t magHistoLimits[HISTOGRAM_LENGTH] = {0};
+uint32_t histogramLimits[HISTOGRAM_LENGTH] = {0};
 uint32_t histogramCount[HISTOGRAM_LENGTH] = {0};
 uint8_t histogramPercentage[HISTOGRAM_LENGTH] = {0};
 void setUp(void)
 {
     //Required by Ceedling
-    magHistoLimits[0] = 1; /* 0-1s */
-    magHistoLimits[1] = 2; /* 1-2s */
-    magHistoLimits[2] = 3; /* ... */
-    magHistoLimits[3] = 4;
-    magHistoLimits[4] = 5;
-    magHistoLimits[5] = 6;
-    magHistoLimits[6] = 7;
-    magHistoLimits[7] = 8;
-    magHistoLimits[8] = 9;
-    magHistoLimits[9] = 10;
+    histogramLimits[0] = 1; /* 0-1s */
+    histogramLimits[1] = 2; /* 1-2s */
+    histogramLimits[2] = 3; /* ... */
+    histogramLimits[3] = 4;
+    histogramLimits[4] = 5;
+    histogramLimits[5] = 6;
+    histogramLimits[6] = 7;
+    histogramLimits[7] = 8;
+    histogramLimits[8] = 9;
+    histogramLimits[9] = 10;
 
     /* Limits for upto a minute */
-    magHistoLimits[10] = 12; /* 10-12s */
-    magHistoLimits[11] = 15; /* 12-15s */
-    magHistoLimits[12] = 20; /* 15-20s */
-    magHistoLimits[13] = 30; /* > 20-30s */
-    magHistoLimits[14] = 45; /* 30-45s */
-    magHistoLimits[15] = 60; /* 45s-1min */
+    histogramLimits[10] = 12; /* 10-12s */
+    histogramLimits[11] = 15; /* 12-15s */
+    histogramLimits[12] = 20; /* 15-20s */
+    histogramLimits[13] = 30; /* > 20-30s */
+    histogramLimits[14] = 45; /* 30-45s */
+    histogramLimits[15] = 60; /* 45s-1min */
 
     /*Limits upto 8+hr */
-    magHistoLimits[16] = 90;   /* 1min - 1:30 min */
-    magHistoLimits[17] = 120;  /* 1:30 -2 min */
-    magHistoLimits[18] = 180;  /* 2-3 min */
-    magHistoLimits[19] = 300;  /* 3-5 min */
-    magHistoLimits[20] = 420;  /* 5-7 min */
-    magHistoLimits[21] = 600;  /* 7-10 Minutes */
-    magHistoLimits[22] = 900;  /* 10 - 15 Minutes */
-    magHistoLimits[23] = 1800; /* 15-30 Minutes */
-    magHistoLimits[24] = 2700; /* 30-45 min */
-    magHistoLimits[25] = 3600; /* 45min -1 Hour */
+    histogramLimits[16] = 90;   /* 1min - 1:30 min */
+    histogramLimits[17] = 120;  /* 1:30 -2 min */
+    histogramLimits[18] = 180;  /* 2-3 min */
+    histogramLimits[19] = 300;  /* 3-5 min */
+    histogramLimits[20] = 420;  /* 5-7 min */
+    histogramLimits[21] = 600;  /* 7-10 Minutes */
+    histogramLimits[22] = 900;  /* 10 - 15 Minutes */
+    histogramLimits[23] = 1800; /* 15-30 Minutes */
+    histogramLimits[24] = 2700; /* 30-45 min */
+    histogramLimits[25] = 3600; /* 45min -1 Hour */
 
-    magHistoLimits[26] = 7200;  /* 1-2 Hours */
-    magHistoLimits[27] = 10800; /* 2-3 Hours */
-    magHistoLimits[28] = 14400; /* 3-4 Hrs */
-    magHistoLimits[29] = 21600; /* 4-6 Hour */
-    magHistoLimits[30] = 28800; /* 6-8 Hours */
-    magHistoLimits[31] = 28800; /* > 8 hrs */
+    histogramLimits[26] = 7200;  /* 1-2 Hours */
+    histogramLimits[27] = 10800; /* 2-3 Hours */
+    histogramLimits[28] = 14400; /* 3-4 Hrs */
+    histogramLimits[29] = 21600; /* 4-6 Hour */
+    histogramLimits[30] = 28800; /* 6-8 Hours */
+    histogramLimits[31] = 28800; /* > 8 hrs */
 }
 
 /**
@@ -71,7 +71,7 @@ void test_CreateHistogram(void)
 }
 void test_UpdateHistogram_0(void)
 {
-    histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
     histogram_error h_error = UpdateHistogram(pMagHistogram, 0);
 
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, ZERO_ERROR, "Should return ZERO_ERROR");
@@ -84,7 +84,7 @@ void test_UpdateHistogram_0(void)
 }
 void test_UpdateHistogram_1(void)
 {
-    histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
     histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
 
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
