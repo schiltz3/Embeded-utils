@@ -13,6 +13,7 @@
 /* function prototypes */
 histogram_s *CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
 histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element);
+histogram_error ResetHistogram(histogram_s *phistogramStruct);
 histogram_error FreeHistogram(histogram_s *pHistogramStruct);
 void PrintHistogram(histogram_s *pHistogramStruct);
 
@@ -80,6 +81,17 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
     }
 
     return NO_ERROR;
+}
+/**
+ * @brief Set the elements in phistogramCount and phistogramPercentage to 0
+ * 
+ * @param phistogramStruct
+ * @return histogram_error 
+ */
+histogram_error ResetHistogram(histogram_s *phistogramStruct)
+{
+    memset(phistogramStruct->pHistogramCount, 0, sizeof(phistogramStruct->pHistogramCount[0]));
+    memset(phistogramStruct->pHistogramPercentage, 0, sizeof(phistogramStruct->pHistogramPercentage[0]));
 }
 /**
  * @brief Frees the memory allocated to the histogram struct, but leaves the arrays pointed to intact

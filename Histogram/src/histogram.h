@@ -33,6 +33,7 @@ typedef struct
 
 histogram_s *CreateHistogram(uint32_t *pBuckets, uint8_t *pHistogramPercentage, uint32_t *pHistogramCount, uint8_t histogramLength);
 histogram_error UpdateHistogram(histogram_s *histogram_struct, uint32_t element);
+histogram_error ResetHistogram(histogram_s *phistogramStruct);
 histogram_error FreeHistogram(histogram_s *pHistogramStruct);
 void PrintHistogram(histogram_s *pHistogramStruct);
 
