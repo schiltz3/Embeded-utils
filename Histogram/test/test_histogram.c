@@ -8,16 +8,22 @@
  * 
  */
 void test_CreateHistogram(void);
+void test_Updatehistogram0(void);
+void test_Updatehistogram1(void);
+void test_Updatehistogram2(void);
+void test_Resethistogram(void);
+void test_FreeHistogram(void);
+void test_PrintHistogram(void);
 
 #define HISTOGRAM_LENGTH 32
 uint32_t histogramLimits[HISTOGRAM_LENGTH] = {0};
 uint32_t histogramCount[HISTOGRAM_LENGTH] = {0};
-uint8_t histogramPercentage[HISTOGRAM_LENGTH] = {0};
+uint8_t histogramPercent[HISTOGRAM_LENGTH] = {0};
 
 void setUp(void)
 {
     memset(histogramCount, 0, HISTOGRAM_LENGTH * sizeof(uint32_t));
-    memset(histogramPercentage, 0, HISTOGRAM_LENGTH * sizeof(uint8_t));
+    memset(histogramPercent, 0, HISTOGRAM_LENGTH * sizeof(uint8_t));
     memset(histogramLimits, 0, HISTOGRAM_LENGTH * sizeof(uint8_t));
     //Required by Ceedling
     histogramLimits[0] = 1; /* 0-1s */
@@ -63,14 +69,14 @@ void setUp(void)
  * @brief A simple test of the CreateHistogram function
  * 
  */
-void test_CreateHistoged(void)
+void test_CreateHistogram(void)
 {
 
-    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
     TEST_ASSERT_NOT_NULL(pMagHistogram);
 
     TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramLimits, pMagHistogram->pBucketLimits, "pBucketLimits pointer does not point to correct array");
-    TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramPercentage, pMagHistogram->pHistogramPercentage, "pHistogramPercentage pointer does not point to correct array");
+    TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramPercent, pMagHistogram->pHistogramPercent, "pHistogramPercent pointer does not point to correct array");
     TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramCount, pMagHistogram->pHistogramCount, "pHistogramCount are not equal");
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(HISTOGRAM_LENGTH, pMagHistogram->numberOfBuckets, "number of buckets not equal to input");
 }
@@ -80,16 +86,16 @@ void test_CreateHistoged(void)
  */
 void test_UpdateHistogram_0(void)
 {
-    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
     histogram_error h_error = UpdateHistogram(pMagHistogram, 0);
 
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(ZERO_ERROR, h_error, "Should return ZERO_ERROR");
 
-    uint32_t testHistogramCount[HISTOGRAM_LENGTH] = {0};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(testHistogramCount, histogramCount, HISTOGRAM_LENGTH, "All buckets should be 0");
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "All buckets should be 0");
 
-    uint8_t testHistogramPercent[HISTOGRAM_LENGTH] = {0};
-    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(histogramPercentage, testHistogramPercent, HISTOGRAM_LENGTH, "All buckets should be 0");
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "All buckets should be 0");
 }
 /**
  * @brief Test that element that equals bucket limit gets put in that bucket
@@ -97,16 +103,16 @@ void test_UpdateHistogram_0(void)
  */
 void test_UpdateHistogram_1(void)
 {
-    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
     histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
 
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Returned error when it should be NO_ERROR");
 
-    uint32_t testHistogramCount[HISTOGRAM_LENGTH] = {0, [13] = 1};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(testHistogramCount, histogramCount, HISTOGRAM_LENGTH, "Bucket 13 should be 1");
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [13] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Bucket 13 should be 1");
 
-    uint8_t testHistogramPercent[HISTOGRAM_LENGTH] = {0, [13] = 100};
-    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(testHistogramPercent, histogramPercentage, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [13] = 100};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
 }
 
 /**
@@ -115,10 +121,10 @@ void test_UpdateHistogram_1(void)
  */
 void test_UpdateHistogram_2(void)
 {
-    memset(histogramPercentage, 0, HISTOGRAM_LENGTH);
+    memset(histogramPercent, 0, HISTOGRAM_LENGTH);
 
     histogram_error h_error;
-    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
 
     h_error = UpdateHistogram(pMagHistogram, 87);
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
@@ -126,11 +132,14 @@ void test_UpdateHistogram_2(void)
     h_error = UpdateHistogram(pMagHistogram, 2000);
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(h_error, NO_ERROR, "Returned error when it should be NO_ERROR");
 
-    uint32_t testHistogramCount[HISTOGRAM_LENGTH] = {0, [16] = 1, [24] = 1};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(testHistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [16] = 1, [24] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
 
-    uint8_t testHistogramPercent[HISTOGRAM_LENGTH] = {0, [16] = 50, [24] = 50};
-    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(testHistogramPercent, histogramPercentage, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [16] = 50, [24] = 50};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
+}
+void test_ResetHistogram(void)
+{
 }
 void test_FreeHistogram(void)
 {
