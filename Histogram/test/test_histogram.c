@@ -12,6 +12,8 @@ void test_UpdateHistogram_0(void);
 void test_UpdateHistogram_1(void);
 void test_UpdateHistogram_2(void);
 void test_UpdateHistogram_3(void);
+void test_UpdateHistogram_4(void);
+void test_UpdateHistogram_5(void);
 void test_ResetHistogram(void);
 void test_FreeHistogram(void);
 void test_PrintHistogram(void);
