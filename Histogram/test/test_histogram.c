@@ -8,21 +8,13 @@
  */
 void test_CreateHistogram(void);
 
+#define HISTOGRAM_LENGTH 30
+uint32_t magHistoLimits[HISTOGRAM_LENGTH] = {0};
+uint32_t histogramCount[HISTOGRAM_LENGTH] = {0};
+uint8_t histogramPercentage[HISTOGRAM_LENGTH] = {0};
 void setUp(void)
 {
     //Required by Ceedling
-}
-
-/**
- * @brief A simple test of the CreateHistogram function
- * 
- */
-void test_CreateHistogram(void)
-{
-#define HISTOGRAM_LENGTH 32
-    uint32_t magHistoLimits[HISTOGRAM_LENGTH] = {0};
-    uint32_t histogramCount[HISTOGRAM_LENGTH] = {0};
-    uint8_t histogramPercentage[HISTOGRAM_LENGTH] = {0};
     magHistoLimits[0] = 1; /* 0-1s */
     magHistoLimits[1] = 2; /* 1-2s */
     magHistoLimits[2] = 3; /* ... */
@@ -60,6 +52,14 @@ void test_CreateHistogram(void)
     magHistoLimits[29] = 21600; /* 4-6 Hour */
     magHistoLimits[30] = 28800; /* 6-8 Hours */
     magHistoLimits[31] = 28800; /* > 8 hrs */
+}
+
+/**
+ * @brief A simple test of the CreateHistogram function
+ * 
+ */
+void test_CreateHistogram(void)
+{
 
     histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
     TEST_ASSERT_NOT_NULL(pMagHistogram);
@@ -68,4 +68,18 @@ void test_CreateHistogram(void)
     TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pHistogramPercentage, histogramPercentage, "pHistogramPercentage pointer does not point to correct array");
     TEST_ASSERT_EQUAL_PTR_MESSAGE(pMagHistogram->pHistogramCount, histogramCount, "pHistogramCount are not equal");
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(pMagHistogram->numberOfBuckets, HISTOGRAM_LENGTH, "number of buckets not equal to input");
+}
+void test_UpdateHistogram(void)
+{
+    histogram_s *pMagHistogram = CreateHistogram(magHistoLimits, histogramPercentage, histogramCount, HISTOGRAM_LENGTH);
+    histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
+    TEST_ASSERT_EQUAL_UINT8(h_error, NO_ERROR);
+}
+void test_FreeHistogram(void)
+{
+    histogram_error FreeHistogram(histogram_s * pHistogramStruct);
+}
+void test_PrintHistogram(void)
+{
+    void PrintHistogram(histogram_s * pHistogramStruct);
 }
