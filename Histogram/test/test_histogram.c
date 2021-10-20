@@ -161,10 +161,8 @@ void test_UpdateHistogram_3(void)
  * @brief Test that elements get added, and percentage is calculated correctly on 3 entries
  * 
  */
-void test_UpdateHistogram_3(void)
+void test_UpdateHistogram_4(void)
 {
-    memset(histogramPercent, 0, HISTOGRAM_LENGTH);
-
     histogram_error h_error;
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
 
@@ -188,10 +186,8 @@ void test_UpdateHistogram_3(void)
  * in the same bucket
  * 
  */
-void test_UpdateHistogram_4(void)
+void test_UpdateHistogram_5(void)
 {
-    memset(histogramPercent, 0, HISTOGRAM_LENGTH);
-
     histogram_error h_error;
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
 
