@@ -1,6 +1,6 @@
-#include <stdint.h>
-#include "unity.h"
 #include "histogram.h"
+#include "unity.h"
+#include <stdint.h>
 #include <string.h>
 
 /**
