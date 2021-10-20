@@ -90,8 +90,8 @@ histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element)
  */
 histogram_error ResetHistogram(histogram_s *phistogramStruct)
 {
-    memset(phistogramStruct->pHistogramCount, 0, sizeof(phistogramStruct->pHistogramCount[0]));
-    memset(phistogramStruct->pHistogramPercent, 0, sizeof(phistogramStruct->pHistogramPercent[0]));
+    memset(phistogramStruct->pHistogramCount, 0, phistogramStruct->numberOfBuckets * sizeof(phistogramStruct->pHistogramCount[0]));
+    memset(phistogramStruct->pHistogramPercent, 0, phistogramStruct->numberOfBuckets * sizeof(phistogramStruct->pHistogramPercent[0]));
 }
 /**
  * @brief Frees the memory allocated to the histogram struct, but leaves the arrays pointed to intact
