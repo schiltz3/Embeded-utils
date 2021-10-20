@@ -117,15 +117,30 @@ void test_UpdateHistogram_1(void)
     uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [22] = 100};
     TEST_ASSERT_EQUAL_UINT8_ARRAY(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH);
 }
+/**
+ * @brief Test that element that equals bucket limit gets put in that bucket
+ * 
+ */
+void test_UpdateHistogram_2(void)
+{
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+
+    histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
+
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [13] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Bucket 13 should be 1");
+
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [13] = 100};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
+}
 
 /**
  * @brief Test that elemnts get added, and percentage is calculated correctly on 2 entries
  * 
  */
-void test_UpdateHistogram_2(void)
+void test_UpdateHistogram_3(void)
 {
-    memset(histogramPercent, 0, HISTOGRAM_LENGTH);
-
     histogram_error h_error;
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
 
