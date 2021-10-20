@@ -227,6 +227,28 @@ void test_UpdateHistogram_6(void)
 
 void test_ResetHistogram(void)
 {
+    histogram_error h_error;
+    histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+
+    /* populate histogram and arrays */
+    UpdateHistogram(pMagHistogram, 30000);
+    UpdateHistogram(pMagHistogram, 10);
+    UpdateHistogram(pMagHistogram, 67);
+    UpdateHistogram(pMagHistogram, 894);
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [9] = 1, [16] = 1, [22] = 1, [31] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH);
+
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [9] = 25, [16] = 25, [22] = 25, [31] = 25};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH);
+
+    /* Reset histogram and test arrays */
+    ResetHistogram(pMagHistogram);
+
+    memset(test_HistogramCount, 0, HISTOGRAM_LENGTH * sizeof(uint32_t));
+    memset(test_HistogramPercent, 0, HISTOGRAM_LENGTH * sizeof(uint8_t));
+
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Array should be empty");
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Array should be empty");
 }
 void test_FreeHistogram(void)
 {
