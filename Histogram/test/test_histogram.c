@@ -151,7 +151,7 @@ void test_UpdateHistogram_3(void)
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
 
     uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [16] = 1, [24] = 1};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1");
 
     uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [16] = 50, [24] = 50};
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
@@ -176,7 +176,7 @@ void test_UpdateHistogram_4(void)
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
 
     uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [5] = 1, [16] = 1, [24] = 1};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1");
 
     uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [5] = 33, [16] = 33, [24] = 33};
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
@@ -201,7 +201,7 @@ void test_UpdateHistogram_5(void)
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
 
     uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [16] = 1, [24] = 2};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1,");
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Buckets 16 and 24 should be 1");
 
     uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [16] = 33, [24] = 66};
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
