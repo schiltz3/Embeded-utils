@@ -207,22 +207,24 @@ void test_UpdateHistogram_5(void)
     TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 16 and 24 should be 50");
 }
 /**
- * @brief Test that element that equals bucket limit gets put in that bucket
+ * @brief Test that elements larger than the largest bucket get put in the correct bucket and the percentage is calculated correctly
  * 
  */
-void test_UpdateHistogram_5(void)
+void test_UpdateHistogram_6(void)
 {
+    histogram_error h_error;
     histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
 
-    histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
+    h_error = UpdateHistogram(pMagHistogram, 30000);
     TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
 
-    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [13] = 1};
-    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Bucket 13 should be 1");
+    uint32_t test_HistogramCount[HISTOGRAM_LENGTH] = {0, [HISTOGRAM_LENGTH - 1] = 1};
+    TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH, "Bucket 31 should be 1");
 
-    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [13] = 100};
-    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 13 should be 100");
+    uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [HISTOGRAM_LENGTH - 1] = 100};
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH, "Bucket 31 should be 100");
 }
+
 void test_ResetHistogram(void)
 {
 }
