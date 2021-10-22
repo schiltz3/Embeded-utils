@@ -14,9 +14,9 @@ void test_UpdateHistogram_2(void);
 void test_UpdateHistogram_3(void);
 void test_UpdateHistogram_4(void);
 void test_UpdateHistogram_5(void);
+void test_UpdateHistogram_6(void);
 void test_ResetHistogram(void);
 void test_FreeHistogram(void);
-void test_PrintHistogram(void);
 
 #define HISTOGRAM_LENGTH 32
 uint32_t histogramLimits[HISTOGRAM_LENGTH] = {0};
@@ -268,6 +268,10 @@ void test_UpdateHistogram_6(void)
                                         "Bucket 31 should be 100");
 }
 
+/**
+ * @brief Test that the histogramPercent and histogramCount are set to zero
+ *
+ */
 void test_ResetHistogram(void)
 {
   histogram_error h_error;
@@ -282,7 +286,13 @@ void test_ResetHistogram(void)
   TEST_ASSERT_EQUAL_UINT32_ARRAY(test_HistogramCount, histogramCount, HISTOGRAM_LENGTH);
 
   uint8_t test_HistogramPercent[HISTOGRAM_LENGTH] = {0, [9] = 25, [16] = 25, [22] = 25, [31] = 25};
-  TEST_ASSERT_EQUAL_UINT8_ARRAY(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH)
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(test_HistogramPercent, histogramPercent, HISTOGRAM_LENGTH);
+
+  uint32_t test_HistogramLimits[HISTOGRAM_LENGTH];
+  for (int i = 0; i < HISTOGRAM_LENGTH; i++)
+  {
+    test_HistogramLimits[i] = histogramLimits[i];
+  }
 
   /* Reset histogram and test arrays */
   ResetHistogram(pMagHistogram);
@@ -298,12 +308,22 @@ void test_ResetHistogram(void)
                                         histogramPercent,
                                         HISTOGRAM_LENGTH,
                                         "Array should be empty");
+  TEST_ASSERT_EQUAL_UINT32_ARRAY_MESSAGE(test_HistogramLimits,
+                                         histogramLimits,
+                                         HISTOGRAM_LENGTH,
+                                         "Arrays should be the same");
 }
+/**
+ * @brief Test that pointer is freed and set to null in FreeHistogram
+ *
+ */
 void test_FreeHistogram(void)
 {
-  histogram_error FreeHistogram(histogram_s * pHistogramStruct);
-}
-void test_PrintHistogram(void)
-{
-  void PrintHistogram(histogram_s * pHistogramStruct);
+  histogram_error h_error;
+  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+
+  FreeHistogram(&pMagHistogram);
+
+  TEST_ASSERT_NULL(pMagHistogram);
 }
