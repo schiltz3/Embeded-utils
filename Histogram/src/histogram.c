@@ -118,11 +118,11 @@ histogram_error FreeHistogram(histogram_s **pHistogramStruct)
  */
 void PrintHistogram(histogram_s *pHistogramStruct)
 {
-    printf("|Bucket\tCount\tPercent\t|\n");
-    printf("|--------------------------|\n");
-    for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
-    {
-        printf("|%u \t%u\t%u %\t|\n", i, pHistogramStruct->pHistogramCount[i], pHistogramStruct->pHistogramPercent[i]);
-    }
-    printf("----------------------------\n");
+  printf("|Bucket\tCount\tPercent\t|\n");
+  printf("|--------------------------|\n");
+  for (uint8_t i = 0; i < pHistogramStruct->numberOfBuckets; i++)
+  {
+    printf("|%u \t%u\t%u %\t|\n", i, pHistogramStruct->pHistogramCount[i], pHistogramStruct->pHistogramPercent[i]);
+  }
+  printf("----------------------------\n");
 }
