@@ -8,10 +8,10 @@
 #include "histogram.h"
 
 /* function prototypes */
-histogram_s *CreateHistogram(uint32_t *pBucketLimits,
-                             uint8_t *pHistogramPercent,
-                             uint32_t *pHistogramCount,
-                             uint8_t histogramLength);
+histogramReturn_s CreateHistogram(uint32_t *pBucketLimits,
+                                  uint8_t *pHistogramPercent,
+                                  uint32_t *pHistogramCount,
+                                  uint8_t histogramLength);
 histogram_error UpdateHistogram(histogram_s *pHistogramStruct, uint32_t element);
 histogram_error ResetHistogram(histogram_s *pHistogramStruct);
 histogram_error FreeHistogram(histogram_s **pHistogramStruct);
@@ -26,7 +26,7 @@ void PrintHistogram(histogram_s *pHistogramStruct);
  * @param histogramLength The length of the 3 arrays
  * @return The newly created histogram struct
  */
-histogram_s *
+histogramReturn_s
 CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent, uint32_t *pHistogramCount, uint8_t histogramLength)
 {
   histogram_s *pHistogramStruct = (histogram_s *)malloc(sizeof(histogram_s));
@@ -34,7 +34,9 @@ CreateHistogram(uint32_t *pBucketLimits, uint8_t *pHistogramPercent, uint32_t *p
   pHistogramStruct->pHistogramCount = pHistogramCount;
   pHistogramStruct->pHistogramPercent = pHistogramPercent;
   pHistogramStruct->numberOfBuckets = histogramLength;
-  return pHistogramStruct;
+  histogramReturn_s returnValue = {.histogramErrorReturn = (pHistogramStruct == NULL) ? MEM_ERROR : NO_ERROR,
+                                   .pHistogramStructReturn = pHistogramStruct};
+  return returnValue;
 }
 
 /**
@@ -98,6 +100,7 @@ histogram_error ResetHistogram(histogram_s *pHistogramStruct)
   memset(pHistogramStruct->pHistogramPercent,
          0,
          pHistogramStruct->numberOfBuckets * sizeof(pHistogramStruct->pHistogramPercent[0]));
+  return NO_ERROR;
 }
 /**
  * @brief Frees the memory allocated to the histogram struct, but leaves the arrays pointed to intact

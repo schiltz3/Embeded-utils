@@ -22,6 +22,7 @@ typedef enum
   MEM_ERROR,
   ZERO_ERROR
 } histogram_error;
+
 /**
  * @struct histogram_s histogram.h
  * @brief Histogram containing pointers to HistogramCount, histogramPercent, BucketLimits, as well as the number of
@@ -35,7 +36,18 @@ typedef struct
   uint8_t numberOfBuckets;    //!< Contains the length of the 3 arrays
 } histogram_s;
 
-histogram_s *
+/**
+ * @brief struct of the types CreateHistogram can return
+ *
+ */
+typedef struct
+{
+  histogram_s *pHistogramStructReturn;
+  histogram_error histogramErrorReturn;
+  /* data */
+} histogramReturn_s;
+
+histogramReturn_s
 CreateHistogram(uint32_t *pBuckets, uint8_t *pHistogramPercent, uint32_t *pHistogramCount, uint8_t histogramLength);
 histogram_error UpdateHistogram(histogram_s *histogram_struct, uint32_t element);
 histogram_error ResetHistogram(histogram_s *phistogramStruct);

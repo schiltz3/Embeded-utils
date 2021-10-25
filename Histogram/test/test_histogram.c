@@ -74,9 +74,12 @@ void setUp(void)
  */
 void test_CreateHistogram(void)
 {
-
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
   TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   TEST_ASSERT_EQUAL_PTR_MESSAGE(histogramLimits,
                                 pMagHistogram->pBucketLimits,
@@ -95,7 +98,13 @@ void test_CreateHistogram(void)
  */
 void test_UpdateHistogram_0(void)
 {
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
+
   histogram_error h_error = UpdateHistogram(pMagHistogram, 0);
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(ZERO_ERROR, h_error, "Should return ZERO_ERROR");
@@ -118,7 +127,12 @@ void test_UpdateHistogram_0(void)
  */
 void test_UpdateHistogram_1(void)
 {
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
   histogram_error h_error = UpdateHistogram(pMagHistogram, 800);
 
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -135,7 +149,12 @@ void test_UpdateHistogram_1(void)
  */
 void test_UpdateHistogram_2(void)
 {
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   histogram_error h_error = UpdateHistogram(pMagHistogram, 30);
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -160,7 +179,12 @@ void test_UpdateHistogram_2(void)
 void test_UpdateHistogram_3(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   h_error = UpdateHistogram(pMagHistogram, 87);
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -188,7 +212,12 @@ void test_UpdateHistogram_3(void)
 void test_UpdateHistogram_4(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   h_error = UpdateHistogram(pMagHistogram, 87);
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -219,7 +248,12 @@ void test_UpdateHistogram_4(void)
 void test_UpdateHistogram_5(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   h_error = UpdateHistogram(pMagHistogram, 87);
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -250,7 +284,12 @@ void test_UpdateHistogram_5(void)
 void test_UpdateHistogram_6(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   h_error = UpdateHistogram(pMagHistogram, 30000);
   TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, h_error, "Should return NO_ERROR");
@@ -275,7 +314,12 @@ void test_UpdateHistogram_6(void)
 void test_ResetHistogram(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
 
   /* populate histogram and arrays */
   UpdateHistogram(pMagHistogram, 30000);
@@ -320,7 +364,12 @@ void test_ResetHistogram(void)
 void test_FreeHistogram(void)
 {
   histogram_error h_error;
-  histogram_s *pMagHistogram = CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  histogram_s *pMagHistogram;
+  histogramReturn_s createHistogramReturn =
+      CreateHistogram(histogramLimits, histogramPercent, histogramCount, HISTOGRAM_LENGTH);
+  pMagHistogram = createHistogramReturn.pHistogramStructReturn;
+  TEST_ASSERT_NOT_NULL(pMagHistogram);
+  TEST_ASSERT_EQUAL_UINT8_MESSAGE(NO_ERROR, createHistogramReturn.histogramErrorReturn, "Should return NO_ERROR");
   TEST_ASSERT_NOT_NULL(pMagHistogram);
 
   FreeHistogram(&pMagHistogram);
